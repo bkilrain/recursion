@@ -6,14 +6,11 @@
 var stringifyJSON = function(obj) { 
 	var keys = Object.keys(obj);
 	var key = keys[0];
-	console.log(keys);
 	if (keys.length === 1) {
-		return '"' + key + '"' + ':' + obj[key] + "}";
+		return '{"' + key + '"' + ':' + obj[key] + "}";
 	} else {
-		var strung = '"' + key + '"' + ':' + obj[key]
+		var strung = '{"' + key + '"' + ':' + obj[key]
 		delete obj[key];
-		return strung + ',' + stringifyJSON(obj);
+		return strung + ',' + stringifyJSON(obj).slice(1);
 	}
 };
-
-console.log('finished: ', stringifyJSON({x:2,y:3,z:4}));
