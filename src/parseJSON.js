@@ -6,7 +6,6 @@ var parseJSON = function(json) {
 
 // string traverser
   var nextLandmark = function(string, nextIndex) {
-  	string = string.slice(0, nextIndex);
   	checkGrammar();
   }
 
@@ -14,12 +13,10 @@ var parseJSON = function(json) {
   var checkGrammar = function() {
 
   // regex variables to flag json components
-  	var objStart = /\{/;
-  	var objEnd = /\}/;
-  	var parenth = /\"/;
-  	var arrayStart = /\[/;
-  	var arrayEnd = /\]/;
-  	var inQuotes = /"(.*?)"/;
+  	var inCurlies = /\{(.*?)\}/g;
+  	var inSquares = /\[(.*?)\]/g;	
+  	var inQuotes = /"(.*?)"/g;
+    var keyBeforeColon = /"(.*?)"(?=:)/g;
 
 
 
@@ -30,7 +27,7 @@ var parseJSON = function(json) {
 //call when object start is matched
   var getObject = function(string) {
 
-  	return {nextLandmark(1)};
+  	return {nextLandmark(string, 1)};
   }
 
   var getQuotes = function(string) {
