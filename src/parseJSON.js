@@ -3,23 +3,16 @@
 
 // but you're not, so you'll write it from scratch:
 var parseJSON = function(json) {
-
-// string traverser
-  var nextLandmark = function(string, nextIndex) {
-  	checkGrammar();
-  }
+    var numRegex = /-?\d*\.?\d+/g
 
 //check next grammar pattern
-  var checkGrammar = function() {
-
-  // regex variables to flag json components
-  	var inCurlies = /\{(.*?)\}/g;
-  	var inSquares = /\[(.*?)\]/g;	
-  	var inQuotes = /"(.*?)"/g;
-    var keyBeforeColon = /"(.*?)"(?=:)/g;
-
-
-
+  var checkGrammar = function(string, start, end) {
+    if (string.indexOf('[', start) >= 0) {
+      return getArray(string, string.indexOf('['), end);
+    } else if (string.search(numRegex) >= 0) {
+      return getNumber(string)
+    }
+  
 
 
   }
@@ -27,10 +20,23 @@ var parseJSON = function(json) {
 //call when object start is matched
   var getObject = function(string) {
 
-  	return {nextLandmark(string, 1)};
   }
 
   var getQuotes = function(string) {
   	
   }
+
+  var getArray = function(string, start, end) {
+    var endIndex = string.lastIndexOf(']');
+    return [checkGrammar(string, start + 1, endIndex - 1)];
+  }
+
+  var getNumber = function(string) { // returns next number in string (don't need start or end args
+    var info = numRegex.exec(string) // because it's built into the regex exec method)
+    var endIndex = numRegex.lastIndex;
+    return Number(info[0]);
+  }
+
+  var test = "[-32.42]"
+  console.log(checkGrammar(test, 0, test.length - 1));
 };
