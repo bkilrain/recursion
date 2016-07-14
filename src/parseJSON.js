@@ -4,7 +4,7 @@
 // but you're not, so you'll write it from scratch:
 var parseJSON = function(json) {
   var indx = 0;
-  var char;
+  var char = json.charAt(indx);
   
 // string traverser
   var advance = function(num) {
@@ -14,7 +14,7 @@ var parseJSON = function(json) {
   }
 
   var error = function(msg) {
-    console.log('invalid' + msg + 'input at index: ' + indx);
+    console.log('invalid ' + msg + ' input at index: ' + indx, 'string: ' + json, 'character: ' + char);
     throw undefined;
   }
 
@@ -77,8 +77,9 @@ var parseJSON = function(json) {
   }
 
   var getString = function() {
-    var strRegex = /".+?"/;
+    var strRegex = /".*?"/;
     var info = strRegex.exec(json.slice(indx));
+    console.log(info, json.slice(indx));
     var strLength = info[0].length;
     if (strLength > 0) {
       advance(strLength);
@@ -92,10 +93,14 @@ var parseJSON = function(json) {
     var array = [];
     advance(1);
 
+
     var buildArray = function() {
       if (char === ']') {
         advance(1);
         return array;
+      } else if (array.length === 0) {
+        array.push(grammar());
+        buildArray();
       } else if (char === ',') {
         advance(1);
         array.push(grammar());
@@ -103,6 +108,7 @@ var parseJSON = function(json) {
       } else {
         error('array');
       }
+    }
     
     return buildArray();
     
