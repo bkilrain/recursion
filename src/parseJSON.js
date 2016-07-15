@@ -14,7 +14,7 @@ var parseJSON = function(json) {
   }
 
   var error = function(msg) {
-    console.log('invalid ' + msg + ' input at index: ' + indx, 'string: ' + json, 'character: ' + char);
+    console.error('invalid ' + msg + ' input at index: ' + indx, 'string: ' + json, 'character: ' + char);
     throw undefined;
   }
 
@@ -79,11 +79,10 @@ var parseJSON = function(json) {
   var getString = function() {
     var strRegex = /".*?"/;
     var info = strRegex.exec(json.slice(indx));
-    console.log(info, json.slice(indx));
     var strLength = info[0].length;
     if (strLength > 0) {
       advance(strLength);
-      return info[0];
+      return info[0].slice(1,-1); //removes quotation marks on returned value
     } else {
       error('string');
     }
@@ -110,7 +109,8 @@ var parseJSON = function(json) {
       }
     }
     
-    return buildArray();
+    buildArray();
+    return array;
     
   }
 
@@ -136,10 +136,12 @@ var parseJSON = function(json) {
         error('object');
       }
     }
-    return buildObj();
+    buildObj();
+    return obj;
   }
 
   return grammar();
 
 
 };
+
