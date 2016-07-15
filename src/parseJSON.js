@@ -2,6 +2,15 @@
 // var parseJSON = JSON.parse;
 
 // but you're not, so you'll write it from scratch:
+
+
+
+// FULL DISCLOSURE: My research included looking over (but not copying) 
+// the completed JSON parser here: 
+// http://wesleytsai.io/2015/06/13/a-json-parser/
+ 
+
+
 var parseJSON = function(json) {
   var indx = 0;
   var char = json.charAt(indx);
