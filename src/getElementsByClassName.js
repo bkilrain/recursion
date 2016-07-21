@@ -4,8 +4,30 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className) {
-  var elements = [];
+var getElementsByClassName = function(className, node) {
+	node = node || document.body;
+  	var elements = [];
+	
+	if (node.classList) {
+			if (node.classList.contains(className)) {
+				elements.push(node);
+			}
+		}
+
+	for (var i = 0; i < node.children.length; i++) {
+		var results = getElementsByClassName(className, node.children[i]);
+		elements = elements.concat(results);
+	}
+	
+	
+	return elements;
+
+
+
+
+// Original program before watching lecture
+
+  /*var elements = [];
 	var checkNode = function(node) {
 		if (node.classList) {
 			if (node.classList.contains(className)) {
@@ -17,5 +39,5 @@ var getElementsByClassName = function(className) {
 		}
 	}
 	checkNode(document.body);
-	return elements;
+	return elements;*/
 };
