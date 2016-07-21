@@ -5,6 +5,34 @@
 
 var stringifyJSON = function(obj) {
 
+  if (Array.isArray(obj)) {
+    var strungArray = [];
+    for (var i = 0; i < obj.length; i++) { 
+      strungArray.push(stringifyJSON(obj[i]));
+    }  
+    return '[' + strungArray.join(',') + ']';
+  }
+
+  if (obj && typeof obj === 'object') {
+    var strungObj = [];
+    for (var key in obj) {
+      if (obj[key] === undefined || typeof obj[key] === 'function') {
+        continue;
+      }
+      strungObj.push(stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
+    }
+    return '{' + strungObj.join(',') + '}';
+  }
+
+  if (typeof obj === 'string') { 
+      return '"' + obj + '"';
+    }
+  return '' + obj;
+
+
+
+// Original program before watching lecture
+/*
   var basicType = function(obj) { //stringifies non-object and array data-types
     if (typeof obj === 'boolean' || typeof obj === 'number') { //checks numbers and booleans
       return obj.toString();
@@ -48,5 +76,5 @@ var stringifyJSON = function(obj) {
   }
 
   return basicType(obj);
-
+*/
 };
